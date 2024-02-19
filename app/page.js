@@ -1793,35 +1793,7 @@ const App = () => {
     }
   };
 
-  const isBothOptionsSelected = () => {
-    return (
-      selectedOptions1[currentQuestionIndex] !== undefined &&
-      selectedOptions2[currentQuestionIndex] !== undefined
-    );
-  };
-
-  // const handleNextButtonClick = () => {
-  //   // Check if there are more questions
-  //   if (currentQuestionIndex < questions.length - 1) {
-  //     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  //   }
-  //   else if (currentQuestionIndex === questions.length - 1) {
-  //     // Handle end of questions/page, e.g., navigate to the next page or finish
-  //     console.log('End of questions/page');
-  //   }
-  // };
-
-  const handleBackButtonClick = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  }
-
-  const handleFinishButtonClick = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-
+  const setValues = () => {
     let answerArray = questions.map((question, index) => {
       const selectedOption1 = selectedOptions1[index] || null;
       const selectedOption2 = selectedOptions2[index] || null;
@@ -1833,8 +1805,7 @@ const App = () => {
       let performanceStatus = "";
       if (selectedOption1 === selectedOption2) {
         performanceStatus = "Stronger";
-      }
-      else if (selectedOption2 > selectedOption1) {
+      } else if (selectedOption2 > selectedOption1) {
         performanceStatus = "Overperformance";
       } else if (selectedOption1 > selectedOption2) {
         performanceStatus = "Underperformance";
@@ -1850,23 +1821,36 @@ const App = () => {
       };
     });
     setUserAnswers(answerArray);
-    console.log("answerArray", answerArray);
+    console.log(answerArray);
+  }
 
-    // const output = answerArray.map((answer, index) => {
-    //   const matchingResponse = reportResponse.find((response) =>
-    //     response.questionId === answer.questionId &&
-    //     response.option1 === answer.option1 &&
-    //     response.option2 === answer.option2
-    //   );
+  const isBothOptionsSelected = () => {
+    return (
+      selectedOptions1[currentQuestionIndex] !== undefined &&
+      selectedOptions2[currentQuestionIndex] !== undefined
+    );
+  };
 
+  const handleNextButtonClick = () => {
+    // Check if there are more questions
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+    setValues()
+  };
 
-    // return {
-    //   questionId: answer.questionId,
-    //   // response: matchingResponse ? matchingResponse.response : "",
-    //   question: initialQuestions[index].question
-    // };
+  const handleBackButtonClick = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+    setValues()
+  }
 
-    // });
+  const handleFinishButtonClick = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+    setValues()
 
   };
 
@@ -1876,6 +1860,7 @@ const App = () => {
   const handlePageChange = (newPage) => {
     const newIndex = (newPage - 1) * questionsPerPage;
     setCurrentQuestionIndex(newIndex);
+    setValues()
   };
 
   const renderPaginationButtons = () => {
@@ -1927,8 +1912,8 @@ const App = () => {
             <h1 className="text-xl font-bold mb-2">Importance Score</h1>
             {options1.map((option) => (
               <div key={option.id} className="mb-2">
-                <label for={option.name} className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
+                <label htmlFor={option.name} className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
+                <span className="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
                   <input
                     type="radio"
                     name={option.name}
@@ -1949,7 +1934,7 @@ const App = () => {
             {options2.map((option) => (
               <div key={option.id} className="mb-2">
                 <label className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
+                <span className="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
                   <input
                     type="radio"
                     name={`option-1${option.name}`}
@@ -1972,7 +1957,7 @@ const App = () => {
           className="bg-gray-500 text-white px-4 py-2 mr-2 rounded">
           Back</button>
         {currentQuestionIndex !== questions.length - 1 && (
-          <button onClick={handleFinishButtonClick}
+          <button onClick={handleNextButtonClick}
             className={`bg-blue-500 text-white px-4 py-2 mr-2 rounded`}>Next</button>
         )}
         {currentQuestionIndex === questions.length - 1 && (
