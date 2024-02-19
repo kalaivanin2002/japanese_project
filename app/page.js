@@ -1912,8 +1912,8 @@ const App = () => {
             <h1 className="text-xl font-bold mb-2">Importance Score</h1>
             {options1.map((option) => (
               <div key={option.id} className="mb-2">
-                <label for={option.name} className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
+                <label htmlFor={option.name} className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
+                <span className="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
                   <input
                     type="radio"
                     name={option.name}
@@ -1934,7 +1934,7 @@ const App = () => {
             {options2.map((option) => (
               <div key={option.id} className="mb-2">
                 <label className="w-1/2 relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer">
-                <span class="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
+                <span className="font-semibold text-gray-500 leading-tight uppercase mb-3">{option.name}</span>
                   <input
                     type="radio"
                     name={`option-1${option.name}`}
